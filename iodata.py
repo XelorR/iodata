@@ -204,7 +204,7 @@ def save_feather(df: pd.DataFrame, filepath_out: str):
 def save_excel(df: pd.DataFrame, filepath_out: str):
     if (df.shape[0] >= 1_000_000) and (filepath_out.endswith("xlsx")):
         i = 0
-        for d in np.array_split(df, int(df.shape[0] / 750_000) + 1):
+        for d in np.array_split(df, int(df.shape[0] / 750000) + 1):
             i += 1
             d.to_excel(f"{filepath_out[:-5]}_part{i}{filepath_out[-5:]}", index=False)
     elif (df.shape[0] >= 65000) and (filepath_out.endswith("xls")):
