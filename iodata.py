@@ -11,8 +11,15 @@ import pandas as pd
 
 
 def locate_header(df: pd.DataFrame) -> pd.DataFrame:
-    first_row = (df.count(axis=1) >= df.shape[1]).idxmax()
+    """
+    in case if all column names are 'Unnamed'
+    it will try to find first row with values
+    and set it as header
+
+    then it will try to recognize numbers
+    """
     if len(df.columns) == len([c for c in df.columns if "Unnamed" in c]):
+        first_row = (df.count(axis=1) >= df.shape[1]).idxmax()
         df.columns = df.loc[first_row]
         df = df.loc[first_row + 1 :]
         for i in df.columns:
