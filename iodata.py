@@ -138,7 +138,7 @@ def load_excel(filepath_in: str) -> pd.DataFrame:
     and then csv will be readed to dataframe
     """
     size = os.path.getsize(filepath_in)
-    if size >= 1000000:
+    if size >= 1_000_000:
         return load_excel_large(filepath_in)
     else:
         return pd.read_excel(filepath_in).pipe(locate_header)
@@ -148,6 +148,7 @@ def load_excel_large(filepath_in: str) -> pd.DataFrame:
     """
     will be used by load_excel if filesize exceeds 100MB
     """
+
     def __convert_excel2csv(filepath_in: str):
         filepath_out = "temp.csv"
         p = Path(filepath_out)
@@ -215,7 +216,7 @@ def save_feather(df: pd.DataFrame, filepath_out: str):
 def save_excel(df: pd.DataFrame, filepath_out: str):
     if (df.shape[0] >= 1_000_000) and (filepath_out.endswith("xlsx")):
         i = 0
-        for d in np.array_split(df, int(df.shape[0] / 750000) + 1):
+        for d in np.array_split(df, int(df.shape[0] / 750_000) + 1):
             i += 1
             d.to_excel(f"{filepath_out[:-5]}_part{i}{filepath_out[-5:]}", index=False)
     elif (df.shape[0] >= 65000) and (filepath_out.endswith("xls")):
