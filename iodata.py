@@ -138,7 +138,7 @@ def load_excel(filepath_in: str) -> pd.DataFrame:
     and then csv will be readed to dataframe
     """
     size = os.path.getsize(filepath_in)
-    if size >= 1_000_000:
+    if size >= 1e8:
         return load_excel_large(filepath_in)
     else:
         return pd.read_excel(filepath_in).pipe(locate_header)
