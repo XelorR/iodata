@@ -18,7 +18,7 @@ def locate_header(df: pd.DataFrame) -> pd.DataFrame:
 
     then it will try to recognize numbers
     """
-    if len(df.columns) == len([c for c in df.columns if "Unnamed" in c]):
+    if len([c for c in df.columns if "Unnamed" in c]) >= 2:
         first_row = (df.count(axis=1) >= df.shape[1]).idxmax()
         df.columns = df.loc[first_row]
         df = df.loc[first_row + 1 :]
@@ -139,9 +139,9 @@ def load_excel(filepath_in: str) -> pd.DataFrame:
     """
     size = os.path.getsize(filepath_in)
     if size >= 1e8:
-        return load_excel_large(filepath_in)
+        return load_excel_large(filepath_in).reset_index().drop("index", axis=1)
     else:
-        return pd.read_excel(filepath_in).pipe(locate_header)
+        return pd.read_excel(filepath_in).pipe(locate_header).reset_index().drop("index", axis=1)
 
 
 def load_excel_large(filepath_in: str) -> pd.DataFrame:
