@@ -141,7 +141,12 @@ def load_excel(filepath_in: str) -> pd.DataFrame:
     if size >= 1e8:
         return load_excel_large(filepath_in).reset_index().drop("index", axis=1)
     else:
-        return pd.read_excel(filepath_in).pipe(locate_header).reset_index().drop("index", axis=1)
+        return (
+            pd.read_excel(filepath_in)
+            .pipe(locate_header)
+            .reset_index()
+            .drop("index", axis=1)
+        )
 
 
 def load_excel_large(filepath_in: str) -> pd.DataFrame:
