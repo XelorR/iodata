@@ -210,6 +210,7 @@ def save_parquet(df: pd.DataFrame, filepath_out: str):
 
 
 def save_feather(df: pd.DataFrame, filepath_out: str):
+    df.index.name = "index"
     df.reset_index().drop("index", axis=1).to_feather(filepath_out)
 
 
