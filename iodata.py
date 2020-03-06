@@ -8,6 +8,7 @@ import sqlite3
 import xlrd
 import numpy as np
 import pandas as pd
+from pyexcelerate import Workbook
 
 
 def locate_header(df: pd.DataFrame) -> pd.DataFrame:
@@ -232,6 +233,13 @@ def save_excel(df: pd.DataFrame, filepath_out: str):
             d.to_excel(f"{filepath_out[:-4]}_part{i}{filepath_out[-4:]}", index=False)
     else:
         df.to_excel(filepath_out, index=False)
+
+
+def save_excel_fast(df, path, sheet_name="Sheet1", skiprows=0):
+    data = [[]] * skiprows + [df.columns.tolist(),] + df.values.tolist()
+    wb = Workbook()
+    wb.new_sheet(sheet_name, data=data)
+    wb.save(path)
 
 
 def save_pickle(df: pd.DataFrame, filepath_out: str):
