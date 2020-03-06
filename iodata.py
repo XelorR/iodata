@@ -225,14 +225,14 @@ def save_excel(df: pd.DataFrame, filepath_out: str):
         i = 0
         for d in np.array_split(df, int(df.shape[0] / 750_000) + 1):
             i += 1
-            d.to_excel(f"{filepath_out[:-5]}_part{i}{filepath_out[-5:]}", index=False)
+            save_excel_fast(d, f"{filepath_out[:-5]}_part{i}{filepath_out[-5:]}")
     elif (df.shape[0] >= 65000) and (filepath_out.endswith("xls")):
         i = 0
         for d in np.array_split(df, int(df.shape[0] / 60000) + 1):
             i += 1
-            d.to_excel(f"{filepath_out[:-4]}_part{i}{filepath_out[-4:]}", index=False)
+            save_excel_fast(d, f"{filepath_out[:-4]}_part{i}{filepath_out[-4:]}")
     else:
-        df.to_excel(filepath_out, index=False)
+        save_excel_fast(df, filepath_out)
 
 
 def save_excel_fast(df, path, sheet_name="Sheet1", skiprows=0):
